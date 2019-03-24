@@ -4,7 +4,7 @@ upstream php {
 server {
 	listen 8080 default_server;
 	listen [::]:8080 default_server;
-	root /var/www/html;
+	root /var/www/public;
 	index index.php index.html index.htm index.nginx-debian.html;
 	server_name _;
 	location / {

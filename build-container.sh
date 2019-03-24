@@ -25,7 +25,7 @@ buildah run $container systemctl stop nginx
 buildah run $container systemctl start nginx
 
 # Entrypoint, too, is a “buildah config” command
-#buildah config --entrypoint /var/www $container
+buildah config --entrypoint /var/www $container
 
 # Finally saves the running container to an image
 buildah commit --format docker $container nginx-php-fpm:latest
