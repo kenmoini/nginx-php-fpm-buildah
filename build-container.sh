@@ -21,8 +21,7 @@ buildah copy $container default-site-config.txt /etc/nginx/sites-available/defau
 
 # Enable & Start services
 buildah run $container systemctl enable nginx
-buildah run $container systemctl stop nginx
-buildah run $container systemctl start nginx
+buildah run $container systemctl restart nginx
 
 # Entrypoint, too, is a “buildah config” command
 buildah config --entrypoint /var/www $container
