@@ -1,0 +1,42 @@
+upstream php {
+	server unix:/run/php/php7.2-fpm.sock;
+}
+server {
+	listen 8080 default_server;
+	listen [::]:8080 default_server;
+	root /var/www/html;
+	index index.php index.html index.htm index.nginx-debian.html;
+	server_name _;
+	location / {
+		#Laravel config
+		try_files $uri $uri/ /index.php?$query_string;
+		#Wordpress Config
+		#try_files $uri $uri/ /index.php$is_args$args;
+	}
+	location = /favicon.ico {
+                log_not_found off;
+                access_log off;
+        }
+        location = /robots.txt {
+                log_not_found off;
+                access_log off;
+        }
+        location ~ /\.ht {
+                deny all;
+        }
+        location ~ \.user\.ini$ {
+              deny all;
+        }
+	location ~ \.php$ {
+                include fastcgi.conf;
+                fastcgi_intercept_errors on;
+                fastcgi_pass php;
+                fastcgi_buffers 16 16k;
+                fastcgi_buffer_size 32k;
+        }
+        #location ~* \.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|mp3|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)(\?ver=[0-9.]+)?$ {
+        #        access_log off;
+        #        log_not_found off;
+        #        expires max;
+        #}
+}
